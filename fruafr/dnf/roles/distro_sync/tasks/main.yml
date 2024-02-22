@@ -1,0 +1,15 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for distro_sync
+
+# RedHat
+- block:
+
+    #dnf -y distro-sync
+    - name: 'DNF distro-sync (raw command: dnf distro-sync)'
+      become: true
+      ansible.builtin.command:
+        cmd: dnf -y distro-sync
+
+  when: ansible_os_family == 'RedHat'

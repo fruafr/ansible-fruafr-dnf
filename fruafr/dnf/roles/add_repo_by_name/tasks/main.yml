@@ -1,0 +1,24 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for add_repo_by_name
+
+- block:
+  - name: Set reponame if not specified
+    pause:
+      prompt: "Enter the reponame" 
+    register: reponame_prompt
+  - set_fact: 
+      reponame: "{{ reponame_prompt.user_input }}"
+  when: reponame is not defined
+
+# RedHat
+- block:  
+
+  # dnf config-manager --add-repo reponame
+  - name: 'enable repo'
+    become: true
+    ansible.builtin.command:
+      cmd: "dnf config-manager --add-repo {{ reponame }}"
+
+  when: ansible_os_family == 'RedHat'

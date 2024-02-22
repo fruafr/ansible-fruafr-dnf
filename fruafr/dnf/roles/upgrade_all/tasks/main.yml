@@ -1,0 +1,15 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for upgrade_all
+
+# RedHat
+- block:
+
+  # should be equivalent to dnf distro-sync
+  - name: 'Upgrade all packages to latest'
+    ansible.builtin.dnf:
+      name: "*"
+      state: latest
+
+  when: ansible_os_family == 'RedHat'

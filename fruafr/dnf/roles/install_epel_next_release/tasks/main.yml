@@ -1,0 +1,197 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for install_epel_next_release
+
+#Install EPL Next Release repository
+#https://docs.fedoraproject.org/en-US/epel/
+
+# RedHat
+- block:
+
+  # RHEL
+  - block:
+
+    - block:
+      #subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+      #dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms     
+      # dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-8.noarch.rpm
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-8.noarch.rpm
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'RedHat'
+
+  # CentOS Stream / CentOS / Fedora
+  - block:
+
+    - block:
+      # dnf config-manager --set-enabled crb
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled crb
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # dnf config-manager --set-enabled powertools
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled powertools
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release
+
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora'
+
+  # OracleLinux
+  - block:
+
+    - block:
+      # dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+      - name: 'install epel'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-8.noarch.rpm
+      - name: 'install epel'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-8.noarch.rpm
+
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'OracleLinux'
+
+  # Rocky
+  - block:
+
+    - block:
+      # dnf config-manager --set-enabled crb
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled crb
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # dnf config-manager --set-enabled powertools
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled powertools
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'Rocky'
+
+  # AlmaLinux
+  - block:
+
+    - block:
+      # dnf config-manager --set-enabled crb
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled crb
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # dnf config-manager --set-enabled powertools
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled powertools
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'AlmaLinux'
+
+# Others (default) try the CentOS way
+  - block:
+
+    - block:
+      # dnf config-manager --set-enabled crb
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled crb
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "9"
+
+    - block:
+      # dnf config-manager --set-enabled powertools
+      - name: 'enable repo'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf config-manager --set-enabled powertools
+      # dnf -y install epel-next-release 
+      - name: 'install epel next release'
+        become: true
+        ansible.builtin.command:
+          cmd: dnf -y install epel-next-release 
+
+      when: ansible_distribution_major_version == "8"
+
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora'
+
+  when: ansible_os_family == 'RedHat'

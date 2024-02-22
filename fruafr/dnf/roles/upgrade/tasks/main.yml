@@ -1,0 +1,15 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for upgrade
+
+# RedHat
+- block:
+
+  #dnf upgrade
+  - name: 'DNF upgrade (raw command: dnf upgrade)'
+    become: true
+    ansible.builtin.command:
+      cmd: dnf -y upgrade
+
+  when: ansible_os_family == 'RedHat'

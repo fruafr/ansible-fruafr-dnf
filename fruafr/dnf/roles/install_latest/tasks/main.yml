@@ -1,0 +1,28 @@
+---
+# (c) Copyright: David HEURTEVENT, 2024
+# License: GPL 3.0
+# tasks file for install_latest
+
+- block:
+  - name: Set package if not specified
+    pause:
+      prompt: "Enter the package name" 
+    register: package_prompt
+  - set_fact: 
+      package: "{{ package_prompt.user_input }}"
+  when: package is not defined
+
+# RedHat
+- block:
+
+  - block:
+    #sudo dnf check-update && sudo dnf install -y [package]
+    - name: "DNF check-update and install {{ package }}"
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - "{{ package }}"
+        state: latest
+        update_cache: true
+  
+  when: ansible_os_family == 'RedHat'
