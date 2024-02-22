@@ -18,8 +18,8 @@ Should work on the following distributions and major versions:
 | CentOS [RHEL Downstream] | Y (no EPEL next release) | ? | N |
 | Fedora [RHEL Devel] | ? (v19+) | ? (v28+) | v38+ (v34+) |
 
-Roles
------
+## Roles
+
 The roles contained in this collection are the following:
 
 **Package level**
@@ -44,20 +44,14 @@ The roles contained in this collection are the following:
 - enable_repo_by_name: Enable a repository by its name
 - install_repo: Install a repository with a rpm package url
 
-License
--------
+## License
 GNU 3.0 or later
 
-
-Author Information
-------------------
+## Author Information
 David Heurtevent <david@heurtevent.org>
 
-
-Note
-----
+## Note
 The author is fully aware that the use of Ansible with some imperative calls (similar to Bash) is an anti-pattern.
 
-Changelog
----------
+## Changelog
 1.0.0 - Initial release (beta)
